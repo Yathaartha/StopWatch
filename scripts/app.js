@@ -2,19 +2,24 @@ let timer;
 let sec = 0;
 let min = 0;
 let hr = 0;
+let mili = 0;
 const startBtn = document.getElementById("start");
 const stopBtn = document.getElementById("stop");
 const pauseBtn = document.getElementById("pause");
 
 function startTimer() {
-  timer = setInterval(timeHandler, 1000);
+  timer = setInterval(timeHandler, 10);
   pauseBtn.disabled = false;
   startBtn.disabled = true;
   stopBtn.disabled = false;
 }
 
 function timeHandler() {
-  sec++;
+  mili++;
+  if (mili === 100) {
+    mili = 0;
+    sec++;
+  }
   if (sec === 60) {
     sec = 0;
     min++;
@@ -24,14 +29,20 @@ function timeHandler() {
     hr++;
   }
   displayTimer();
-  console.log(hr + ":" + min + ":" + sec);
+  // console.log(hr + ":" + min + ":" + sec);
 }
 
 function displayTimer() {
+  let miliPretty;
   let secPretty;
   let minPretty;
   let hrPretty;
   let timerIndicator = document.getElementById("timer");
+  if (mili < 10) {
+    miliPretty = "0" + mili;
+  } else {
+    miliPretty = mili;
+  }
   if (sec < 10) {
     secPretty = "0" + sec;
   } else {
@@ -47,13 +58,14 @@ function displayTimer() {
   } else {
     hrPretty = hr;
   }
-  timerIndicator.innerHTML = `${hrPretty}:${minPretty}:${secPretty}`;
+  timerIndicator.innerHTML = `${hrPretty}:${minPretty}:${secPretty}.${miliPretty}`;
 }
 
 function reset() {
   hr = 0;
   min = 0;
   sec = 0;
+  mili = 0;
 }
 
 stopBtn.addEventListener("click", () => {
