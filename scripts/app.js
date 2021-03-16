@@ -5,11 +5,11 @@ let hr = 0;
 let mili = 0;
 const startBtn = document.getElementById("start");
 const stopBtn = document.getElementById("stop");
-const pauseBtn = document.getElementById("pause");
+const restartBtn = document.getElementById("restart");
 
 function startTimer() {
   timer = setInterval(timeHandler, 10);
-  pauseBtn.disabled = false;
+  restartBtn.disabled = false;
   startBtn.disabled = true;
   stopBtn.disabled = false;
 }
@@ -70,16 +70,17 @@ function reset() {
 
 stopBtn.addEventListener("click", () => {
   clearInterval(timer);
-  pauseBtn.disabled = true;
+  restartBtn.disabled = false;
   startBtn.disabled = false;
   stopBtn.disabled = true;
-  reset();
 });
 
-pauseBtn.addEventListener("click", () => {
+restartBtn.addEventListener("click", () => {
   clearInterval(timer);
+  reset();
   startBtn.disabled = false;
-  pauseBtn.disabled = true;
+  restartBtn.disabled = true;
+  displayTimer();
 });
 
 startBtn.addEventListener("click", startTimer);
